@@ -19,9 +19,6 @@ object EcsServer {
 
       Ok("OK")
     }
-
-    case req @ POST -> Root / "echo" => Ok(req.body.toString)
-
   }
 
   def main(args:Array[String]):Unit={
