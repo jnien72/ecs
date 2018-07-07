@@ -11,7 +11,9 @@ libraryDependencies ++= Seq(
   "com.fasterxml.jackson.core" % "jackson-core" % "2.8.4",
   "org.http4s" %% "http4s-blaze-server" % "0.15.4a",
   "org.http4s" %% "http4s-dsl"          % "0.15.4a",
-  "org.http4s" %% "http4s-argonaut"     % "0.15.4a"
+  "org.http4s" %% "http4s-argonaut"     % "0.15.4a",
+  "org.apache.kafka" % "kafka_2.11" % "1.1.0",
+  "org.apache.kafka" % "kafka-clients" % "1.1.0"
 )
 
 updateOptions := updateOptions.value.withCachedResolution(true)
