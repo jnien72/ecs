@@ -1,18 +1,27 @@
 package com.test.ecs
 
+import com.test.ecs.util.JsonUtils
 import org.http4s.HttpService
 import org.http4s.server.blaze.BlazeBuilder
 import org.http4s.dsl._
+import org.slf4j.LoggerFactory
 
 object EcsServer {
 
+  val LOG = LoggerFactory.getLogger(getClass())
+
   val service = HttpService {
-    case GET -> Root / "hello" / name => {
-      Ok(s"hello ${name}!")
+    case req @ POST -> Root / "topic" / topicName => {
+      val is=scalaz.stream.io.toInputStream(req.body)
+      val body=scala.io.Source.fromInputStream(is).mkString
+
+      LOG.info("I got a message, to topic "+ topicName +" =>" +body)
+
+      Ok("OK")
     }
-    case req @ POST -> Root / "echo" => {
-      Ok(req.body)
-    }
+
+    case req @ POST -> Root / "echo" => Ok(req.body.toString)
+
   }
 
   def main(args:Array[String]):Unit={
