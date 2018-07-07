@@ -14,7 +14,7 @@ object EcsServer {
     case req @ POST -> Root / "topic" / topicName => {
       val is=scalaz.stream.io.toInputStream(req.body)
       val body=scala.io.Source.fromInputStream(is).mkString
-
+      JsonUtils.fromJson[]()
       LOG.info("I got a message, to topic "+ topicName +" =>" +body)
 
       Ok("OK")
