@@ -5,10 +5,11 @@ import java.util.Collections
 
 import org.apache.kafka.clients.consumer.KafkaConsumer
 import org.apache.kafka.clients.producer.KafkaProducer
+import scala.collection.JavaConverters._
 
 object KafkaUtils {
 
-  def createConsumer(topicName:String, groupId:String):KafkaConsumer[String,String]={
+  def createConsumer(groupId:String, topicNameList:List[String]):KafkaConsumer[String,String]={
     val props = new Properties()
     props.put("bootstrap.servers","localhost:9092")
     props.put("key.deserializer",
@@ -19,7 +20,7 @@ object KafkaUtils {
     props.put("auto.offset.reset","latest")
 
     val consumer = new KafkaConsumer[String, String](props)
-    consumer.subscribe(Collections.singletonList(topicName))
+    consumer.subscribe(topicNameList.asJava)
     consumer
   }
 
