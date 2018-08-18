@@ -36,15 +36,14 @@ object EcsLoader {
                 records.asScala.foreach(record=>{
                   val json=record.value()
                   val feedName=record.topic()
-
                   try{
                     val jsonObj=JsonUtils.fromJson[Map[String,Any]](json)
                     val driver=getParquetDriver(record.topic(), jsonObj)
-                    val parquetRecord=toRecord(jsonObj, driver.schema)
+                    val parquetRecord=toRecord(jsonObj, driver.getSchema())
                     driver.getOrCreateWriter().write(parquetRecord)
 
                     LOG.info("[consumer] " + "add "+ json+ " to "+ feedName+" "+
-                      driver.tmpPath)
+                      driver.getTmpPath())
                   }catch{
                     case _:Throwable => {
                       LOG.error("[consumer] " + "error writing "+json+" to "+feedName)
@@ -77,7 +76,7 @@ object EcsLoader {
       currentDrivers.values.foreach(driver=>{
         if(driver.isWriterInitialized()){
           driver.getOrCreateWriter().close()
-          LOG.info("[loader] " + "writer "+driver.feedName+" closed a file at "+driver.tmpPath)
+          LOG.info("[loader] " + "writer "+driver.feedName+" closed a file at "+driver.getTmpPath())
         }
       })
       currentDrivers.clear()

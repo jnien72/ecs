@@ -22,7 +22,7 @@ mkdir -p ${OUTPUT_RUNTIME_PATH}
 mkdir ${OUTPUT_RUNTIME_PATH}/etc
 
 for f in ${BUILD_PATH}/src/main/resources/*; do
-	cp $f ${OUTPUT_RUNTIME_PATH}/etc >> /dev/null 2>&1
+	cp -r $f ${OUTPUT_RUNTIME_PATH}/etc >> /dev/null 2>&1
 done
 
 cp -r ${BUILD_PATH}/sbin ${OUTPUT_RUNTIME_PATH}/sbin

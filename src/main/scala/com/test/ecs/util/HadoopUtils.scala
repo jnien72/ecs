@@ -3,9 +3,7 @@ package com.test.ecs.util
 import java.io.File
 import java.lang.reflect.Method
 import java.net.{URL, URLClassLoader}
-
 import org.slf4j.LoggerFactory
-
 
 object HadoopUtils {
   private val LOG = LoggerFactory.getLogger(getClass())

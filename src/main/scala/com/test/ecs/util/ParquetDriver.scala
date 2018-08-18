@@ -32,4 +32,12 @@ class ParquetDriver(val feedName:String, val eventDate:String){
   }
 
   def isWriterInitialized():Boolean=(writer!=null)
+
+  def getSchema():Schema={
+    schema
+  }
+
+  def getTmpPath():String={
+    tmpPath
+  }
 }
