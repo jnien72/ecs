@@ -10,6 +10,7 @@ object EnvProperty {
   val HADOOP_CONF_DIR = "hadoop.conf.dir"
   val LOADER_CONSUMER_GROUP="loader.consumer.group"
   val LOADER_INTERVAL_SECONDS="loader.interval.seconds"
+  val LOADER_OUTPUT_PATH="loader.output.path"
 
   def get(key:String):String={
     config.getString(key)

@@ -3,6 +3,8 @@ package com.test.ecs.util
 import java.io.File
 import java.lang.reflect.Method
 import java.net.{URL, URLClassLoader}
+
+import org.apache.hadoop.conf.Configuration
 import org.slf4j.LoggerFactory
 
 object HadoopUtils {
@@ -16,6 +18,16 @@ object HadoopUtils {
     }else{
       LOG.info("Could not load hadoop configuration, using local mode instead")
     }
+  }
+
+  var config:Configuration=null
+  def getHadoopConf():Configuration={
+    this.synchronized{
+      if(config==null){
+        config=new Configuration()
+      }
+    }
+    config
   }
 
   private def addFile(filePath: String) {
