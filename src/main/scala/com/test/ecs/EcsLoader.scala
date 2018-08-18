@@ -46,8 +46,8 @@ object EcsLoader {
                     LOG.info("[consumer] " + "add "+ json+ " to "+ feedName+" "+
                       driver.getTmpPath())
                   }catch{
-                    case _:Throwable => {
-                      LOG.error("[consumer] " + "error writing "+json+" to "+feedName)
+                    case t:Throwable => {
+                      LOG.error("[consumer] " + "error writing "+json+" to "+feedName, t)
                     }
                   }
                 })

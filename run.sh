@@ -11,5 +11,5 @@ docker run -d \
 -v /etc/hosts:/etc/hosts:ro \
 -v /etc/timezone:/etc/timezone:ro \
 -v /etc/localtime:/etc/localtime:ro \
--v /opt/hadoop/etc/hadoop:/opt/hadoop/etc/hadoop:ro \
+-v /opt/hadoop:/opt/hadoop:ro \
 $IMG_NAME

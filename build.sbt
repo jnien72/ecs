@@ -3,7 +3,9 @@ version := "0.1"
 scalaVersion := "2.11.7"
 
 libraryDependencies ++= Seq(
-  "org.apache.hadoop" % "hadoop-client" % "2.8.4",
+  "org.apache.hadoop" % "hadoop-client" % "2.7.7",
+  "org.apache.hadoop" % "hadoop-common" % "2.7.7",
+  "org.apache.hadoop" % "hadoop-hdfs" % "2.7.7",
   "org.apache.logging.log4j" % "log4j-api" % "2.11.0",
   "org.apache.logging.log4j" % "log4j-core" % "2.11.0",
   "org.slf4j" % "slf4j-log4j12" % "1.7.25",
@@ -28,7 +30,13 @@ libraryDependencies ~= {_
 }
 
 assemblyMergeStrategy in assembly := {
-  case x if x.startsWith("META-INF") && x.endsWith("MANIFEST.MF") => MergeStrategy.discard
+  case PathList("META-INF", "MANIFEST.MF") => MergeStrategy.discard
+  case x if x.startsWith("META-INF") && x.endsWith(".SF") => MergeStrategy.discard
+  case x if x.startsWith("META-INF") && x.endsWith(".RSA") => MergeStrategy.discard
+  case x if x.startsWith("META-INF") && x.endsWith(".DSA") => MergeStrategy.discard
+  case x if x.startsWith("META-INF") && x.endsWith(".TXT") => MergeStrategy.discard
+  case x if x.startsWith("META-INF") && x.endsWith("org.apache.hadoop.fs.FileSystem") => MergeStrategy.concat
+  case PathList(ps@_*) if ps.last endsWith ".conf" => MergeStrategy.concat
   case x => MergeStrategy.first
 }
 
