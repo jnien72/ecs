@@ -6,9 +6,10 @@ docker stop $IMG_NAME
 docker rm $IMG_NAME
 docker run -d \
 --name $IMG_NAME \
---network=host \
--h `hostname` \
+--network="host" \
+-h $IMG_NAME-`hostname` \
+-v /etc/hosts:/etc/hosts:ro \
 -v /etc/timezone:/etc/timezone:ro \
 -v /etc/localtime:/etc/localtime:ro \
--v /etc/hadoop/conf:/etc/hadoop/conf:ro \
+-v /opt/hadoop/etc/hadoop:/opt/hadoop/etc/hadoop:ro \
 $IMG_NAME

@@ -17,7 +17,7 @@ sed 's/\[START_CMD\]/\/opt\/ecs\/sbin\/start-server.sh/g' \
 cd dist
 docker rmi $IMG_NAME 2> /dev/null | true
 docker build -t $IMG_NAME .
-echo "[ecs loader] exporting image ... "
+echo "[ecs server] exporting image ... "
 docker save $IMG_NAME | gzip > $FILE_PATH
 echo "[ecs server] saved img to $FILE_PATH"
 

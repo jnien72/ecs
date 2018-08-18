@@ -32,6 +32,7 @@ if [ "$env" == "prod" ]; then
     mv ${OUTPUT_RUNTIME_PATH}/etc/config-prod.conf ${OUTPUT_RUNTIME_PATH}/etc/config.conf
 else
     env="stage"
+    rm ${OUTPUT_RUNTIME_PATH}/etc/config-prod.conf
 fi
 
 cp -r ${BUILD_PATH}/sbin ${OUTPUT_RUNTIME_PATH}/sbin
@@ -44,4 +45,4 @@ mkdir -p ${OUTPUT_RUNTIME_PATH}/logs
 
 echo
 
-echo "[ $env ] Build finished successfully => ${OUTPUT_PATH}"
+echo "Build [ $env ] finished successfully => ${OUTPUT_PATH}"
