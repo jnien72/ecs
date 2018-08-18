@@ -1,5 +1,7 @@
 #!/bin/bash
 
+env="$1"
+
 project_name="ecs"
 
 cd `dirname "$0"`;
@@ -25,6 +27,13 @@ for f in ${BUILD_PATH}/src/main/resources/*; do
 	cp -r $f ${OUTPUT_RUNTIME_PATH}/etc >> /dev/null 2>&1
 done
 
+if [ "$env" == "prod" ]; then
+    rm ${OUTPUT_RUNTIME_PATH}/etc/config.conf
+    mv ${OUTPUT_RUNTIME_PATH}/etc/config-prod.conf ${OUTPUT_RUNTIME_PATH}/etc/config.conf
+else
+    env="stage"
+fi
+
 cp -r ${BUILD_PATH}/sbin ${OUTPUT_RUNTIME_PATH}/sbin
 chmod 755 ${OUTPUT_RUNTIME_PATH}/sbin/*
 
@@ -34,4 +43,5 @@ cp target/scala-*/*.jar ${OUTPUT_RUNTIME_PATH}/lib
 mkdir -p ${OUTPUT_RUNTIME_PATH}/logs
 
 echo
-echo "Build finished successfully => ${OUTPUT_PATH}"
+
+echo "[ $env ] Build finished successfully => ${OUTPUT_PATH}"

@@ -1,0 +1,18 @@
+FROM spantree/ubuntu-oraclejdk8
+
+ENV LANG=C.UTF-8
+
+RUN useradd -ms /bin/bash ecs \
+    && echo "ecs ALL = (ALL) NOPASSWD:ALL" > /etc/sudoers \
+    && echo 'PS1="${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ "' >> /home/ecs/.bashrc \
+    && echo 'alias ls="ls --color=auto"' >> /home/ecs/.bashrc
+
+COPY /ecs /opt/ecs
+
+RUN chown -R ecs:ecs /opt/ecs
+
+USER ecs
+
+WORKDIR /opt/ecs
+
+CMD [START_CMD]
