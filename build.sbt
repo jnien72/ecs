@@ -15,7 +15,8 @@ libraryDependencies ++= Seq(
   "com.fasterxml.jackson.core" % "jackson-databind" % "2.9.6",
   "com.fasterxml.jackson.core" % "jackson-core" % "2.9.6",
   "com.fasterxml.jackson.module" % "jackson-module-scala_2.11" % "2.9.6",
-  "org.apache.parquet" % "parquet-avro" % "1.7.0"
+  "org.apache.parquet" % "parquet-avro" % "1.7.0",
+  "com.typesafe" % "config" % "1.3.1"
 )
 
 updateOptions := updateOptions.value.withCachedResolution(true)

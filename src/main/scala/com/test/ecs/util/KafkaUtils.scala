@@ -1,8 +1,6 @@
 package com.test.ecs.util
 
 import java.util.Properties
-import java.util.Collections
-
 import org.apache.kafka.clients.consumer.KafkaConsumer
 import org.apache.kafka.clients.producer.KafkaProducer
 import scala.collection.JavaConverters._
@@ -11,13 +9,10 @@ object KafkaUtils {
 
   def createConsumer(groupId:String, topicNameList:List[String]):KafkaConsumer[String,String]={
     val props = new Properties()
-    props.put("bootstrap.servers","localhost:9092")
-    props.put("key.deserializer",
-      "org.apache.kafka.common.serialization.StringDeserializer")
-    props.put("value.deserializer",
-      "org.apache.kafka.common.serialization.StringDeserializer")
+    EnvProperty.getEntriesWithPrefix("kafka.")
+      .map(entry=>(entry._1.substring("kafka.".length),entry._2))
+      .foreach(entry=>props.put(entry._1,entry._2))
     props.put("group.id", groupId)
-    props.put("auto.offset.reset","latest")
 
     val consumer = new KafkaConsumer[String, String](props)
     consumer.subscribe(topicNameList.asJava)
@@ -26,16 +21,9 @@ object KafkaUtils {
 
   def createProducer(): KafkaProducer[String, String] = {
     val props = new Properties()
-    props.put("bootstrap.servers", "localhost:9092")
-    props.put("acks","1")
-    props.put("retries","10")
-    props.put("batch.size","16384")
-    props.put("linger.ms","100")
-    props.put("buffer.memory","33554432")
-    props.put("key.serializer",
-      "org.apache.kafka.common.serialization.StringSerializer")
-    props.put("value.serializer",
-      "org.apache.kafka.common.serialization.StringSerializer")
+    EnvProperty.getEntriesWithPrefix("kafka.")
+      .map(entry=>(entry._1.substring("kafka.".length),entry._2))
+      .foreach(entry=>props.put(entry._1,entry._2))
     new KafkaProducer[String, String](props);
   }
 }

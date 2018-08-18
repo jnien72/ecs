@@ -13,7 +13,7 @@ import scala.util.Random
 
 object FeedUtils {
 
-  val LOG = LoggerFactory.getLogger(getClass)
+  private val LOG = LoggerFactory.getLogger(getClass())
 
   def getFeedList():List[String]={
     val stream : InputStream = getClass.getResourceAsStream("/schema.lst")

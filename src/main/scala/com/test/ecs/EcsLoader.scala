@@ -13,6 +13,7 @@ object EcsLoader {
   private val LOG = LoggerFactory.getLogger(getClass())
 
   def main(args:Array[String])={
+    HadoopUtils.loadHadoopConf()
     startConsumer()
     startLoader()
   }
@@ -23,13 +24,12 @@ object EcsLoader {
       if(consumerThread==null){
         consumerThread=new Thread(new Runnable(){
           override def run(): Unit = {
+            val consumerId=EnvProperty.get(EnvProperty.LOADER_CONSUMER_GROUP)
             val consumer=KafkaUtils.createConsumer(
-              "consumer2", FeedUtils.getFeedList())
-
+              consumerId, FeedUtils.getFeedList())
             while(true){
               if(expectedState!=currentState){
                 currentState=expectedState
-                LOG.info("[consumer] " + "current state="+currentState)
               }
               if(currentState==EcsLoaderState.running){
                 val records=consumer.poll(100)
@@ -63,10 +63,13 @@ object EcsLoader {
   }
 
   private def startLoader():Unit={
-    val intervalInMs=DateTimeUtils.SECOND_IN_MILLIS * 10
+    val intervalInSeconds=
+      EnvProperty.get(EnvProperty.LOADER_INTERVAL_SECONDS).toInt
+    val intervalInMs=
+      DateTimeUtils.SECOND_IN_MILLIS * intervalInSeconds
+
     while(true){
       Thread.sleep(intervalInMs)
-      LOG.info("[loader] " + "pausing ... ")
       expectedState=EcsLoaderState.paused
       while(expectedState!=currentState){
         Thread.sleep(100)
@@ -80,7 +83,6 @@ object EcsLoader {
       currentDrivers.clear()
 
       expectedState=EcsLoaderState.running
-      LOG.info("[loader] " + "please continue")
     }
   }
 

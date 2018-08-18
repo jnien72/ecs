@@ -10,9 +10,9 @@ import org.apache.parquet.hadoop.metadata.CompressionCodecName
 
 class ParquetDriver(val feedName:String, val eventDate:String){
 
-  val tmpPath="/tmp/ecs-"+feedName+"_"+eventDate+"_"+System.currentTimeMillis()+".parquet"
-  val schemaStr=FeedUtils.getAvroSchema(feedName)
-  val schema = new Schema.Parser().parse(schemaStr)
+  private val tmpPath="/tmp/ecs-"+feedName+"_"+eventDate+"_"+System.currentTimeMillis()+".parquet"
+  private val schemaStr=FeedUtils.getAvroSchema(feedName)
+  private val schema = new Schema.Parser().parse(schemaStr)
 
   private var writer:AvroParquetWriter[GenericRecord]=null
   def getOrCreateWriter():AvroParquetWriter[GenericRecord]={

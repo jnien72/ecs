@@ -1,6 +1,6 @@
 package com.test.ecs
 
-import com.test.ecs.util.{Constants, FeedUtils, JsonUtils, KafkaUtils}
+import com.test.ecs.util._
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.http4s.HttpService
 import org.http4s.server.blaze.BlazeBuilder
@@ -39,7 +39,7 @@ object EcsServer {
   }
 
   def main(args:Array[String]):Unit={
-    val port=8080
+    val port = EnvProperty.get(EnvProperty.HTTP_PORT).toInt
     val server=BlazeBuilder.bindHttp(port, "0.0.0.0")
       .mountService(service, "/").run
     LOG.info("Server started on port "+port)
